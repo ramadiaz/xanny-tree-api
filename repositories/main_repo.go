@@ -9,6 +9,7 @@ import (
 
 type CompRepository interface{
 	RegisterUrl(data dto.Tree) error
+	GetUrl(url string) (*string, error) 
 }
 
 type compRepository struct {

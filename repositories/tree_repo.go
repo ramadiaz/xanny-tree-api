@@ -10,3 +10,14 @@ func (r *compRepository) RegisterUrl(data dto.Tree) error {
 
 	return nil
 }
+
+func (r *compRepository) GetUrl(url string) (*string, error) {
+	var origin string
+
+	err := r.DB.QueryRow("SELECT original_url FROM tree_url WHERE short_url = $1 ORDER BY id DESC", url).Scan(&origin)
+	if err != nil {
+		return nil, err
+	}
+
+	return &origin, nil
+}
