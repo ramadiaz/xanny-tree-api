@@ -18,4 +18,5 @@ func CompRouter(api *gin.RouterGroup) {
 	compHandler := handlers.NewCompHandlers(compService)
 
 	api.GET("/ping", compHandler.Ping)
+	api.POST("/register", compHandler.RegisterUrl)
 }

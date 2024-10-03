@@ -4,9 +4,12 @@ import (
 	"database/sql"
 	"log"
 	"xanny-tree-api/config"
+	"xanny-tree-api/dto"
 )
 
-type CompRepository interface{}
+type CompRepository interface{
+	RegisterUrl(data dto.Tree) error
+}
 
 type compRepository struct {
 	DB *sql.DB

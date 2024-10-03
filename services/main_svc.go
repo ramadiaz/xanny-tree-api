@@ -1,8 +1,13 @@
 package services
 
-import "xanny-tree-api/repositories"
+import (
+	"xanny-tree-api/dto"
+	"xanny-tree-api/repositories"
+)
 
-type CompService interface{}
+type CompService interface{
+	RegisterUrl(data dto.Tree) error
+}
 
 type compServices struct {
 	repo repositories.CompRepository
