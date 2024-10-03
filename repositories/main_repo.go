@@ -31,6 +31,18 @@ func NewComponentRepository(DB *sql.DB) *compRepository {
 		log.Fatalf("Error creating table: %v", err)
 	}
 
+	_, err = db.Exec(`
+		CREATE TABLE IF NOT EXISTS tree_url (
+			id BIGSERIAL PRIMARY KEY NOT NULL,
+			name VARCHAR(255) NOT NULL,
+			short_url VARCHAR(255) NOT NULL,
+			original_url VARCHAR(255) NOT NULL,
+			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+		);`)
+	if err != nil {
+		log.Fatalf("Error creating table: %v", err)
+	}
+
 	return &compRepository{
 		DB: db,
 	}
