@@ -18,6 +18,11 @@ func CompRouter(api *gin.RouterGroup) {
 	compHandler := handlers.NewCompHandlers(compService)
 
 	api.GET("/ping", compHandler.Ping)
-	api.POST("/register", compHandler.RegisterUrl)
 	api.GET("/get", compHandler.GetUrl)
+
+	adminRouter := api.Group("/admin")
+	adminRouter.Use(middleware.AdminMiddleware())
+	{
+		adminRouter.POST("/register", compHandler.RegisterUrl)
+	}
 }

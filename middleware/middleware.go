@@ -67,6 +67,29 @@ func AuthMiddleware() gin.HandlerFunc {
 	}
 }
 
+func AdminMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		secret := os.Getenv("ADMIN_SECRET")
+		if secret == "" {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Error getting secret"})
+			return
+		}
+
+		authHeader := c.GetHeader("Authorization")
+		if authHeader == "" {
+			c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "Forbidden"})
+			return
+		}
+
+		if secret != authHeader {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Ngapain?"})
+			return
+		}
+
+		c.Next()
+	}
+}
+
 func ClientTracker(db *sql.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		clientIP := c.ClientIP()
