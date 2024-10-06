@@ -12,6 +12,7 @@ type CompRepository interface{
 	GetUrl(url string) (*string, error) 
 
 	AddLike() (*int64, error) 
+	GetLike() (*int64, error) 
 }
 
 type compRepository struct {

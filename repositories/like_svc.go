@@ -10,3 +10,14 @@ func (r *compRepository) AddLike() (*int64, error) {
 
 	return &total, nil
 }
+
+func (r *compRepository) GetLike() (*int64, error) {
+	var total int64
+
+	err := r.DB.QueryRow("SELECT total FROM like_count WHERE name = 'profile';").Scan(&total)
+	if err != nil {
+		return nil, err
+	}
+
+	return &total, nil
+}
