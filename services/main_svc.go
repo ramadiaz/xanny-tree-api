@@ -8,6 +8,8 @@ import (
 type CompService interface{
 	RegisterUrl(data dto.Tree) error
 	GetUrl(url string) (*string, error) 
+
+	AddLike() (*int64, error) 
 }
 
 type compServices struct {

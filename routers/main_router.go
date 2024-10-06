@@ -25,4 +25,9 @@ func CompRouter(api *gin.RouterGroup) {
 	{
 		adminRouter.POST("/register", compHandler.RegisterUrl)
 	}
+
+	likeRouter := api.Group("/like")
+	{
+		likeRouter.GET("/add", compHandler.AddLike)
+	}
 }
