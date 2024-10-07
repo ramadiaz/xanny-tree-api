@@ -7,12 +7,14 @@ import (
 	"xanny-tree-api/dto"
 )
 
-type CompRepository interface{
+type CompRepository interface {
 	RegisterUrl(data dto.Tree) error
-	GetUrl(url string) (*string, error) 
+	GetUrl(url string) (*string, error)
 
-	AddLike() (*int64, error) 
-	GetLike() (*int64, error) 
+	AddLike() (*int64, error)
+	GetLike() (*int64, error)
+
+	UploadIncognitoMessage(message string) error
 }
 
 type compRepository struct {
@@ -51,7 +53,7 @@ func NewComponentRepository(DB *sql.DB) *compRepository {
 	}
 
 	_, err = db.Exec(`
-		CREATE TABLE IF NOT EXISTS like_count (
+	CREATE TABLE IF NOT EXISTS like_count (
 			id BIGSERIAL PRIMARY KEY NOT NULL,
 			name VARCHAR(255) UNIQUE NOT NULL,
 			total BIGINT NOT NULL DEFAULT 0,
@@ -63,6 +65,16 @@ func NewComponentRepository(DB *sql.DB) *compRepository {
 		VALUES ('profile')
 		ON CONFLICT (name) DO NOTHING;
 		`)
+	if err != nil {
+		log.Fatalf("Error creating table: %v", err)
+	}
+
+	_, err = db.Exec(`
+		CREATE TABLE IF NOT EXISTS incognito_messages (
+			id BIGSERIAL PRIMARY KEY NOT NULL,
+			message VARCHAR(255) NOT NULL,
+			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+		);`)
 	if err != nil {
 		log.Fatalf("Error creating table: %v", err)
 	}

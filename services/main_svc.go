@@ -11,6 +11,8 @@ type CompService interface{
 
 	AddLike() (*int64, error) 
 	GetLike() (*int64, error) 
+
+	UploadIncognitoMessage(message string) error
 }
 
 type compServices struct {

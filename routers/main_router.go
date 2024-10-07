@@ -31,4 +31,9 @@ func CompRouter(api *gin.RouterGroup) {
 		likeRouter.GET("/add", compHandler.AddLike)
 		likeRouter.GET("/get", compHandler.GetLike)
 	}
+
+	incognitoRouter := api.Group("/incognito")
+	{
+		incognitoRouter.POST("/send", compHandler.UploadIncognitoMessage)
+	}
 }
