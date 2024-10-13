@@ -14,7 +14,9 @@ func (s *compServices) UploadIncognitoMessage(message string) error {
 		Body:    message,
 	}
 
-	_ = s.SendEmail(email)
+	go func(email dto.Email) {
+		_ = s.SendEmail(email)
+	}(email)
 
 	return nil
 }
