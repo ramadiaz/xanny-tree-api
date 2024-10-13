@@ -31,7 +31,7 @@ func main() {
 	config.AllowCredentials = true
 	r.Use(cors.New(config))
 
-	lmt := tollbooth.NewLimiter(3, &limiter.ExpirableOptions{DefaultExpirationTTL: time.Second})
+	lmt := tollbooth.NewLimiter(5, &limiter.ExpirableOptions{DefaultExpirationTTL: time.Second})
 
 	r.Use(middleware.RateLimitMiddleware(lmt))
 
