@@ -9,9 +9,26 @@ import (
 	"xanny-tree-api/dto"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/didip/tollbooth/v7"
+	"github.com/didip/tollbooth/v7/limiter"
 	"github.com/gin-gonic/gin"
 	"github.com/mssola/user_agent"
 )
+
+func RateLimitMiddleware(limiters ...*limiter.Limiter) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		for _, lmt := range limiters {
+			httpError := tollbooth.LimitByRequest(lmt, c.Writer, c.Request)
+			if httpError != nil {
+				c.AbortWithStatusJSON(httpError.StatusCode, gin.H{
+					"error": httpError.Message,
+				})
+				return
+			}
+		}
+		c.Next()
+	}
+}
 
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
